@@ -29,23 +29,27 @@ public class SplashActivity extends AppCompatActivity implements SpringListener{
 
     private float startViewPointX;
     private float startViewPointY;
-    private boolean isMoveY;
+    private boolean inOnGlobalLayout = true;
     private Random rnd;
 
     private ViewTreeObserver.OnGlobalLayoutListener mOnGlobalLayoutListenerViewFlyingMug =
             new ViewTreeObserver.OnGlobalLayoutListener() {
         @Override
         public void onGlobalLayout() {
-            Log.i(MYLOG, " ");
+
+            if(inOnGlobalLayout){
+                startViewPointX = viewFlyingMug.getX();
+                startViewPointY = viewFlyingMug.getY();
+
+                startFlyingMugAnim();
+
+                Log.i(MYLOG, "here");
+            }
+
+            inOnGlobalLayout = false;
+
         }
     };
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        startFlyingMugAnim();
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,10 +67,6 @@ public class SplashActivity extends AppCompatActivity implements SpringListener{
         viewFlyingMug
                 .getViewTreeObserver()
                 .addOnGlobalLayoutListener(mOnGlobalLayoutListenerViewFlyingMug);
-        startViewPointY = viewFlyingMug.getY();
-
-        //move view to bottom
-        viewFlyingMug.setY(displayMetric.heightPixels);
 
         //animation object
         springSystem = SpringSystem.create();
@@ -76,10 +76,17 @@ public class SplashActivity extends AppCompatActivity implements SpringListener{
         SpringConfig config = new SpringConfig(TENSION, DAMPER);
         spring.setSpringConfig(config);
 
+
     }
 
     private void startFlyingMugAnim(){
-        Log.i(MYLOG, ""+viewFlyingMug.getHeight());
+
+
+
+        //move view to bottom
+        viewFlyingMug.setY(displayMetric.heightPixels);
+
+        Log.i(MYLOG, ""+viewFlyingMug.getY());
         Log.i(MYLOG, ""+startViewPointY);
 
         int squareBound = 50;
@@ -98,9 +105,9 @@ public class SplashActivity extends AppCompatActivity implements SpringListener{
 
     @Override
     public void onSpringUpdate(Spring spring) {
-
         float value = (float) spring.getCurrentValue();
         viewFlyingMug.setY(value);
+
     }
 
     @Override

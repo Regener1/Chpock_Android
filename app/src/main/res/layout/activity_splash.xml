@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:src="@mipmap/city_scape"
+        android:id="@+id/activitySplash_ImageView_CityScape"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitEnd"/>
+
+    <ImageView
+        android:src="@mipmap/chpock_logo_big"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/activitySplash_ImageView_ChpockLogo"
+        android:scaleType="fitStart"/>
+
+    <View
+        android:background="@mipmap/flying_mug"
+        android:id="@+id/activitySplash_View_FlyingMug"
+        android:layout_width="180dp"
+        android:layout_height="256dp"
+        android:layout_gravity="center"/>
+
+
+</FrameLayout>

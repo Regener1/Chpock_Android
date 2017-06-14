@@ -1,5 +1,6 @@
 package com.example.user.chpok;
 
+import android.content.Intent;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,6 +13,9 @@ import com.facebook.rebound.Spring;
 import com.facebook.rebound.SpringConfig;
 import com.facebook.rebound.SpringListener;
 import com.facebook.rebound.SpringSystem;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class SplashActivity extends AppCompatActivity implements SpringListener{
 
@@ -68,6 +72,17 @@ public class SplashActivity extends AppCompatActivity implements SpringListener{
 
         SpringConfig config = new SpringConfig(TENSION, DAMPER);
         mSpring.setSpringConfig(config);
+
+        //delay 3s before open mainActivity
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        }, 3000);
     }
 
     @Override

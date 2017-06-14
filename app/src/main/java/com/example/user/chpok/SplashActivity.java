@@ -24,8 +24,8 @@ public class SplashActivity extends AppCompatActivity implements SpringListener{
     private Spring spring;
     private Display display;
     private DisplayMetrics displayMetric;
-    private static double TENSION = 800;
-    private static double DAMPER = 20;
+    private static double TENSION = 200;
+    private static double DAMPER = 5;
 
     private float startViewPointX;
     private float startViewPointY;
@@ -38,12 +38,7 @@ public class SplashActivity extends AppCompatActivity implements SpringListener{
         public void onGlobalLayout() {
 
             if(inOnGlobalLayout){
-                startViewPointX = viewFlyingMug.getX();
-                startViewPointY = viewFlyingMug.getY();
-
                 startFlyingMugAnim();
-
-                Log.i(MYLOG, "here");
             }
 
             inOnGlobalLayout = false;
@@ -76,32 +71,44 @@ public class SplashActivity extends AppCompatActivity implements SpringListener{
         SpringConfig config = new SpringConfig(TENSION, DAMPER);
         spring.setSpringConfig(config);
 
-
+        //move view to bottom
+        viewFlyingMug.setY(displayMetric.heightPixels);
+        viewFlyingMug.setX(displayMetric.widthPixels/3);
     }
 
     private void startFlyingMugAnim(){
 
+        startViewPointY = displayMetric.heightPixels / 3;
 
-
-        //move view to bottom
-        viewFlyingMug.setY(displayMetric.heightPixels);
-
-        Log.i(MYLOG, ""+viewFlyingMug.getY());
         Log.i(MYLOG, ""+startViewPointY);
 
-        int squareBound = 50;
+//        int squareBound = 100;
 
         //move to start point
+//        spring.setEndValue(displayMetric.heightPixels);
         spring.setEndValue(startViewPointY);
+//        try {
+//            Thread.sleep(1000);
+//            //get random square point X
+//            spring.setEndValue(getRandomPoint(squareBound) + startViewPointY);
+//            Thread.sleep(1000);
+//
+//            spring.setEndValue(getRandomPoint(squareBound) + startViewPointY);
+//            Thread.sleep(1000);
+//            spring.setEndValue(getRandomPoint(squareBound) + startViewPointY);
+//
+//            Thread.sleep(1000);
+//        }
+//        catch (InterruptedException e){
+//
+//        }
+//        spring.setEndValue(startViewPointY);
 
-        //get random square points
-        int rndX = rnd.nextInt(squareBound) - 100;
-        int rndY = rnd.nextInt(squareBound) - 100;
-
-        Log.i(MYLOG, "rndX " + rndX + " rndY " + rndY);
-
-        //spring.setEndValue()
     }
+
+//    private int getRandomPoint(int bound){
+//        return rnd.nextInt(bound) - bound * 2;
+//    }
 
     @Override
     public void onSpringUpdate(Spring spring) {

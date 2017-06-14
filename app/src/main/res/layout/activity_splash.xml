@@ -22,8 +22,7 @@
         android:background="@mipmap/flying_mug"
         android:id="@+id/activitySplash_View_FlyingMug"
         android:layout_width="180dp"
-        android:layout_height="256dp"
-        />
+        android:layout_height="256dp"/>
 
 
 </FrameLayout>

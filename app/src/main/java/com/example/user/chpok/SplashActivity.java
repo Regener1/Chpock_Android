@@ -1,5 +1,6 @@
 package com.example.user.chpok;
 
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -24,25 +25,29 @@ public class SplashActivity extends AppCompatActivity implements SpringListener{
     private Spring spring;
     private Display display;
     private DisplayMetrics displayMetric;
-    private static double TENSION = 200;
+    private static double TENSION = 50;
     private static double DAMPER = 5;
 
     private float startViewPointX;
     private float startViewPointY;
-    private boolean inOnGlobalLayout = true;
-    private Random rnd;
 
     private ViewTreeObserver.OnGlobalLayoutListener mOnGlobalLayoutListenerViewFlyingMug =
             new ViewTreeObserver.OnGlobalLayoutListener() {
         @Override
         public void onGlobalLayout() {
 
-            if(inOnGlobalLayout){
-                startFlyingMugAnim();
+            //move view to bottom
+            viewFlyingMug.setX(displayMetric.widthPixels / 3);
+
+            spring.setCurrentValue(displayMetric.heightPixels);
+            spring.setEndValue(displayMetric.heightPixels / 3);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                viewFlyingMug.getViewTreeObserver().removeOnGlobalLayoutListener(this);
             }
-
-            inOnGlobalLayout = false;
-
+            else {
+                viewFlyingMug.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+            }
         }
     };
 
@@ -51,7 +56,6 @@ public class SplashActivity extends AppCompatActivity implements SpringListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        rnd = new Random();
         display = getWindowManager().getDefaultDisplay();
         displayMetric = new DisplayMetrics();
         display.getMetrics(displayMetric);
@@ -71,50 +75,13 @@ public class SplashActivity extends AppCompatActivity implements SpringListener{
         SpringConfig config = new SpringConfig(TENSION, DAMPER);
         spring.setSpringConfig(config);
 
-        //move view to bottom
-        viewFlyingMug.setY(displayMetric.heightPixels);
-        viewFlyingMug.setX(displayMetric.widthPixels/3);
-    }
-
-    private void startFlyingMugAnim(){
-
-        startViewPointY = displayMetric.heightPixels / 3;
-
-        Log.i(MYLOG, ""+startViewPointY);
-
-//        int squareBound = 100;
-
-        //move to start point
-//        spring.setEndValue(displayMetric.heightPixels);
-        spring.setEndValue(startViewPointY);
-//        try {
-//            Thread.sleep(1000);
-//            //get random square point X
-//            spring.setEndValue(getRandomPoint(squareBound) + startViewPointY);
-//            Thread.sleep(1000);
-//
-//            spring.setEndValue(getRandomPoint(squareBound) + startViewPointY);
-//            Thread.sleep(1000);
-//            spring.setEndValue(getRandomPoint(squareBound) + startViewPointY);
-//
-//            Thread.sleep(1000);
-//        }
-//        catch (InterruptedException e){
-//
-//        }
-//        spring.setEndValue(startViewPointY);
 
     }
-
-//    private int getRandomPoint(int bound){
-//        return rnd.nextInt(bound) - bound * 2;
-//    }
 
     @Override
     public void onSpringUpdate(Spring spring) {
         float value = (float) spring.getCurrentValue();
         viewFlyingMug.setY(value);
-
     }
 
     @Override

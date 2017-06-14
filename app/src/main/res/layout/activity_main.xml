@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/background_gray"
+    tools:context="com.example.user.chpok.MainActivity">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/activityMain_ViewPager_SlidePager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="14dp"
+        android:layout_marginRight="14dp"
+        android:layout_marginTop="14dp"
+        android:layout_above="@+id/activityMain_ImageView_BottomPaper"/>
+
+    <ImageView
+        android:id="@+id/activityMain_ImageView_BottomPaper"
+        android:layout_width="match_parent"
+        android:layout_height="66dp"
+        android:layout_alignBottom="@+id/activityMain_ImageButton_BtnBeerCup"
+        android:layout_alignLeft="@+id/activityMain_ViewPager_SlidePager"
+        android:layout_marginBottom="63dp"
+        android:layout_marginLeft="-1dp"
+        android:layout_marginRight="14dp"
+        android:scaleType="fitXY"
+        android:src="@mipmap/bottom_paper"/>
+    <ImageButton
+        android:id="@+id/activityMain_ImageButton_BtnBeerCup"
+        android:layout_width="133dp"
+        android:layout_height="133dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="6dp"
+        android:layout_marginRight="6dp"
+        android:background="@color/colorTransparent"
+        android:scaleType="fitXY"
+        android:src="@mipmap/button_beer_cup"/>
+</RelativeLayout>

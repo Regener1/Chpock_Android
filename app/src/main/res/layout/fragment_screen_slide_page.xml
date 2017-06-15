@@ -2,15 +2,10 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorTransparent">
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/roundrect_main"
-        android:layout_above="@+id/fragmentScreenSlidePage_ImageView_BottomPaper"/>
+    android:background="@drawable/roundrect_main">
 
     <ImageView
         android:id="@+id/fragmentScreenSlidePage_ImageView_SpeechBubble"
@@ -36,7 +31,7 @@
         android:layout_alignRight="@+id/fragmentScreenSlidePage_ImageView_SpeechBubble"
         android:layout_alignEnd="@+id/fragmentScreenSlidePage_ImageView_SpeechBubble"/>
 
-    <TextView
+    <com.example.user.chpok.CustomTextView
         android:id="@+id/fragmentScreenSlidePage_TextView"
         android:layout_width="match_parent"
         android:layout_height="159dp"
@@ -48,7 +43,11 @@
         android:layout_marginRight="13dp"
         android:layout_marginTop="13dp"
         android:gravity="center"
-        android:text="TextView"
-        android:textSize="26sp"/>
+        android:text="Любовь моя! Едваль сегодня, смогу я отказать
+                        друзьям своим. Мы собрались пивка попить.
+                        Вернусь не ранее захода."
+        android:textSize="26sp"
+        android:textColor="@color/colorBlack"
+        app:font="FiveMinutes.ttf"/>
 
 </RelativeLayout>

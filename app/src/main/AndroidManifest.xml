@@ -20,7 +20,7 @@
 
         </activity>
         <activity android:name=".MainActivity"
-                  android:theme="@style/MainCustomTheme">
+                  android:theme="@style/AppTheme">
 
 
         </activity>

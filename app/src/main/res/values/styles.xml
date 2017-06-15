@@ -14,17 +14,4 @@
     </style>
 
 
-    <style name="MainCustomTheme" parent="Theme.AppCompat">
-        <item name="android:actionBarStyle">@style/MyActionBar</item>
-    </style>
-
-    <style name="MyActionBar" parent="Widget.AppCompat.Light.ActionBar.Solid.Inverse">
-        <item name="android:background">@color/colorActionBar</item>
-        <!--<item name="android:titleTextStyle">@style/MyTextAppearance</item>-->
-    </style>
-    
-    <style name="MyTextAppearance" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
-        <item name="android:textColor">@color/colorBlack</item>
-    </style>
-
 </resources>

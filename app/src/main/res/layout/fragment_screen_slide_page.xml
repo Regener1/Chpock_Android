@@ -47,8 +47,7 @@
                         друзьям своим. Мы собрались пивка попить.
                         Вернусь не ранее захода."
         android:textSize="26sp"
-        app:font="FiveMinutes.ttf">
-
-    </com.example.user.chpok.CustomTextView>
+        android:textColor="@color/colorBlack"
+        app:font="FiveMinutes.ttf"/>
 
 </RelativeLayout>

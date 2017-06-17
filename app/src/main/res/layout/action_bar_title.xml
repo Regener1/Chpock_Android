@@ -1,14 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary">
 
+
     <ImageView
+        android:id="@+id/actionBarTitle_ImageView_ChpockLogoSmall"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="10dp"
+        android:layout_height="24dp"
         android:layout_marginTop="10dp"
-        android:src="@mipmap/chpock_logo_small" />
+        android:src="@mipmap/chpock_logo_small"/>
+
+    <ImageView
+        android:id="@+id/actionBarTitle_ImageView_BeerMugCount"
+        android:layout_width="20dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:src="@mipmap/beer_mug_count"/>
+
+    <com.example.user.chpok.CustomTextView
+        android:id="@+id/actionBarTitle_TextView_TextViewCount"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:layout_marginLeft="3dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@+id/actionBarTitle_ImageView_BeerMugCount"
+        android:text="7"
+        android:textColor="@color/colorWhite"
+        android:textSize="20sp"
+        app:font="FiveMinutes.ttf"/>
 </RelativeLayout>

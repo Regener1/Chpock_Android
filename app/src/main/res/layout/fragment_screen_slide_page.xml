@@ -4,15 +4,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
 
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/roundrect_main">
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/fragmentScreenSlidePage_ImageView_Background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/fragmentScreenSlidePage_ImageView_BottomPaper"
+        android:layout_marginLeft="14dp"
+        android:layout_marginRight="14dp"
+        android:src="@drawable/roundrect_main"/>
 
     <ImageView
         android:id="@+id/fragmentScreenSlidePage_ImageView_SpeechBubble"
         android:layout_width="match_parent"
         android:layout_height="225dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
+        android:layout_alignLeft="@+id/fragmentScreenSlidePage_ImageView_Background"
+        android:layout_alignTop="@+id/fragmentScreenSlidePage_ImageView_Background"
+        android:layout_alignRight="@+id/fragmentScreenSlidePage_ImageView_Background"
         android:layout_marginLeft="13dp"
         android:layout_marginRight="13dp"
         android:layout_marginTop="13dp"
@@ -23,31 +32,44 @@
         android:id="@+id/fragmentScreenSlidePage_ImageView_ImgShakespeare"
         android:layout_width="match_parent"
         android:layout_height="290dp"
-        android:src="@mipmap/img_shakespeare"
-        android:layout_alignParentBottom="true"
-        android:layout_alignLeft="@+id/fragmentScreenSlidePage_ImageView_SpeechBubble"
-        android:layout_alignStart="@+id/fragmentScreenSlidePage_ImageView_SpeechBubble"
+        android:layout_above="@+id/fragmentScreenSlidePage_ImageView_BottomPaper"
+        android:layout_alignLeft="@+id/fragmentScreenSlidePage_ImageView_Background"
+        android:layout_alignRight="@+id/fragmentScreenSlidePage_ImageView_Background"
         android:layout_below="@+id/fragmentScreenSlidePage_ImageView_SpeechBubble"
-        android:layout_alignRight="@+id/fragmentScreenSlidePage_ImageView_SpeechBubble"
-        android:layout_alignEnd="@+id/fragmentScreenSlidePage_ImageView_SpeechBubble"/>
+        android:layout_marginLeft="13dp"
+        android:layout_marginRight="13dp"
+        android:src="@mipmap/img_shakespeare"/>
 
     <com.example.user.chpok.CustomTextView
         android:id="@+id/fragmentScreenSlidePage_TextView"
         android:layout_width="match_parent"
         android:layout_height="159dp"
-        android:layout_alignEnd="@+id/fragmentScreenSlidePage_ImageView_SpeechBubble"
         android:layout_alignLeft="@+id/fragmentScreenSlidePage_ImageView_SpeechBubble"
         android:layout_alignRight="@+id/fragmentScreenSlidePage_ImageView_SpeechBubble"
         android:layout_alignTop="@+id/fragmentScreenSlidePage_ImageView_SpeechBubble"
-        android:layout_marginLeft="26dp"
+        android:layout_marginLeft="13dp"
         android:layout_marginRight="13dp"
         android:layout_marginTop="13dp"
         android:gravity="center"
         android:text="Любовь моя! Едваль сегодня, смогу я отказать
                         друзьям своим. Мы собрались пивка попить.
+                        Вернусь не ранее захода.Любовь моя! Едваль сегодня, смогу я отказать
+                        друзьям своим. Мы собрались пивка попить.
                         Вернусь не ранее захода."
-        android:textSize="26sp"
         android:textColor="@color/colorBlack"
+        android:textSize="26sp"
         app:font="FiveMinutes.ttf"/>
+
+    <ImageView
+        android:id="@+id/fragmentScreenSlidePage_ImageView_BottomPaper"
+        android:layout_width="match_parent"
+        android:layout_height="66dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="13dp"
+        android:layout_marginRight="14dp"
+        android:scaleType="fitXY"
+        android:src="@mipmap/bottom_paper"/>
 
 </RelativeLayout>

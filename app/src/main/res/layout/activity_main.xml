@@ -24,5 +24,6 @@
         android:layout_marginRight="6dp"
         android:background="@color/colorTransparent"
         android:scaleType="fitXY"
-        android:src="@mipmap/button_beer_cup"/>
+        android:src="@mipmap/button_beer_cup"
+        android:onClick="btnBeerCup_OnClick"/>
 </RelativeLayout>

@@ -16,11 +16,11 @@ import android.widget.TextView;
 
 public class CustomTextView extends TextView {
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public CustomTextView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-        init(attrs);
-    }
+//    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+//    public CustomTextView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+//        super(context, attrs, defStyleAttr, defStyleRes);
+//        init(attrs);
+//    }
 
     public CustomTextView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
@@ -52,5 +52,4 @@ public class CustomTextView extends TextView {
             a.recycle();
         }
     }
-
 }

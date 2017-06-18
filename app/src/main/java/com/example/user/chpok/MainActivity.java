@@ -2,6 +2,7 @@ package com.example.user.chpok;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -11,16 +12,21 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final int NUM_PAGES = 2;
+    private static final String BEER_COUNT_KEY = "BEER_COUNT";
 
     private ViewPager mSlidePager;
-
     private PagerAdapter mPagerAdapter;
+    private View mViewBeerCount;
+    private SharedPreferences mSharedPreferences;
+    private int mBeerCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,9 +46,47 @@ public class MainActivity extends AppCompatActivity {
 
         View view = inflater.inflate(R.layout.action_bar_title, null);
         //get image view counter
-//        view.findViewById()
+        mViewBeerCount = view.findViewById(R.id.actionBarTitle_TextView_TextViewCount);
         actionBar.setCustomView(view);
 
+        loadCounter();
+
+    }
+
+    //ask
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        saveCounter();
+//    }
+
+    public void btnBeerCup_OnClick(View view) {
+        mBeerCount++;
+        displayBeerCount(mBeerCount);
+        saveCounter();
+
+
+    }
+
+    private void saveCounter(){
+        mSharedPreferences = getPreferences(MODE_PRIVATE);
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putInt(BEER_COUNT_KEY, mBeerCount);
+        editor.commit();
+
+        Log.i("MYLOG", "counter saved");
+    }
+
+    private void loadCounter(){
+        mSharedPreferences = getPreferences(MODE_PRIVATE);
+        mBeerCount = mSharedPreferences.getInt(BEER_COUNT_KEY, 0);
+        displayBeerCount(mBeerCount);
+
+        Log.i("MYLOG", "counter loaded");
+    }
+
+    private void displayBeerCount(int value){
+        ((TextView)mViewBeerCount).setText(Integer.toString(value));
     }
 
     /**

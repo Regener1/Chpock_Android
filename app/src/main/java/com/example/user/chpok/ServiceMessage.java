@@ -10,7 +10,8 @@ public class ServiceMessage {
     private static final String MYLOG = "MYLOG";
 
     private static ServiceMessage mInstance;
-    private Message mMessage;
+
+    private ServiceMessage(){}
 
     public static ServiceMessage getInstance(){
         Log.i(MYLOG, "ServiceMessage::getInstance()");
@@ -22,11 +23,7 @@ public class ServiceMessage {
         return mInstance;
     }
 
-    public Message getMessage() {
-        return mMessage;
-    }
+    public Message[] getAllMess(){
 
-    public void setMessage(Message message) {
-        this.mMessage = message;
     }
 }

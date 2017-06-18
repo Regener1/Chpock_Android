@@ -28,4 +28,6 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.facebook.rebound:rebound:0.3.6'
     testCompile 'junit:junit:4.12'
+
+    compile 'me.grantland:autofittextview:0.2.+'
 }

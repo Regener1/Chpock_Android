@@ -11,6 +11,8 @@ public class Message {
     private String mPngUrl;
     private Image mPngImg;
 
+    public Message(){}
+
     public Message(String text, String pngUrl, Image pngImg) {
         this.mText = text;
         this.mPngUrl = pngUrl;

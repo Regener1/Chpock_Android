@@ -3,6 +3,8 @@ package com.example.user.chpok;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -16,6 +18,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -53,17 +58,12 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    //ask
-//    @Override
-//    protected void onDestroy() {
-//        super.onDestroy();
-//        saveCounter();
-//    }
-
     public void btnBeerCup_OnClick(View view) {
         mBeerCount++;
         displayBeerCount(mBeerCount);
         saveCounter();
+
+        mPagerAdapter.notifyDataSetChanged();
 
 
     }
@@ -94,18 +94,24 @@ public class MainActivity extends AppCompatActivity {
      * sequence.
      */
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
+
         public ScreenSlidePagerAdapter(FragmentManager fm) {
             super(fm);
         }
 
         @Override
         public Fragment getItem(int position) {
-            return new ScreenSlidePageFragment();
+            ScreenSlidePageFragment newScreenSlidePageFragment = new ScreenSlidePageFragment();
+
+            newScreenSlidePageFragment.setText(ServiceMessage.getInstance().getAllMess().get(position).getText());
+            newScreenSlidePageFragment.setImg(ServiceMessage.getInstance().getAllMess().get(position).getJpgImg());
+
+            return newScreenSlidePageFragment;
         }
 
         @Override
         public int getCount() {
-            return NUM_PAGES;
+            return ServiceMessage.getInstance().getAllMess().size();
         }
     }
 }

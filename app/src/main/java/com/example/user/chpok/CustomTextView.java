@@ -4,10 +4,14 @@ package com.example.user.chpok;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
 /**
@@ -15,6 +19,10 @@ import android.widget.TextView;
  */
 
 public class CustomTextView extends TextView {
+
+    private int mWidth = 0;
+    private int mHeight = 0;
+    Context mContext;
 
 //    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 //    public CustomTextView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
@@ -51,5 +59,39 @@ public class CustomTextView extends TextView {
             }
             a.recycle();
         }
+    }
+
+    private boolean isFitTextHeight(){
+//        Paint p = new Paint();
+//        Rect bounds = new Rect();
+//        p.setTextSize(this.getTextSize());
+//        Typeface typeface = Typeface.createFromAsset(getContext().getAssets(), "fonts/" + "FiveMinutes.ttf");
+//        p.getTextBounds(this.getText().toString(), 0, this.getText().length(), bounds);
+//
+//        int i = 0;
+//        return true;
+
+        this.measure(MeasureSpec.makeMeasureSpec(mWidth, MeasureSpec.AT_MOST),
+                MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
+
+        int height = this.getMeasuredHeight();
+
+        return height < mHeight ? false : true;
+    }
+
+    public void setAutoSizeText() {
+
+        while(!isFitTextHeight()) {
+            this.setTextSize(TypedValue.COMPLEX_UNIT_SP, this.getTextSize() - 1f);
+        }
+    }
+
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        mWidth = w;
+        mHeight = h;
+
+        setAutoSizeText();
     }
 }

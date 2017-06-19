@@ -50,16 +50,17 @@
         android:layout_marginLeft="13dp"
         android:layout_marginRight="13dp"
         android:layout_marginTop="13dp"
+        android:bufferType="normal"
         android:gravity="center"
+        android:maxLines="5"
         android:text="Любовь моя! Едваль сегодня, смогу я отказать
                         друзьям своим. Мы собрались пивка попить.
                         Вернусь не ранее захода.Любовь моя! Едваль сегодня, смогу я отказать
                         друзьям своим. Мы собрались пивка попить.
                         Вернусь не ранее захода."
         android:textColor="@color/colorBlack"
-        android:maxLines="5"
         android:textSize="26sp"
-        app:font="FiveMinutes.ttf"/>
+        app:font="FiveMinutes.ttf" />
 
     <ImageView
         android:id="@+id/fragmentScreenSlidePage_ImageView_BottomPaper"

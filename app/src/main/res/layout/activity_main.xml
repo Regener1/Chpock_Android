@@ -12,10 +12,9 @@
         android:id="@+id/activityMain_SwipeFlingAdapterView_SwipeView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="63dp"
-        app:rotation_degrees="16"
         app:max_visible="4"
-        app:min_adapter_stack="6"/>
+        app:min_adapter_stack="6"
+        app:rotation_degrees="16"/>
 
     <ImageButton
         android:id="@+id/activityMain_ImageButton_BtnBeerCup"

@@ -7,24 +7,24 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.PagerAdapter;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -34,76 +34,90 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static android.os.Environment.getExternalStoragePublicDirectory;
 
 public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
 
-    private String MY_LOG= "MY_LOG";
+    private String MY_LOG = "MY_LOG";
 
     private static final String BEER_COUNT_KEY = "BEER_COUNT";
 
+    private DisplayMetrics mDisplayMetrics;
+
     private SwipeFlingAdapterView mSlidePager;
-    private PagerAdapter mPagerAdapter;
+    private List<MessageModel> mSliderModelList = new ArrayList<>();
     private BaseAdapter mModelAdapter;
     private View mViewBeerCount;
     private SharedPreferences mSharedPreferences;
     private int mBeerCount = 0;
+
+    private SwipeFlingAdapterView.onFlingListener mOnFlingListener
+            = new SwipeFlingAdapterView.onFlingListener() {
+        @Override
+        public void removeFirstObjectInAdapter() {
+            Log.i(MY_LOG, "in removeFirstObjectInAdapter");
+            mSliderModelList.remove(0);
+            mModelAdapter.notifyDataSetChanged();
+        }
+
+        @Override
+        public void onLeftCardExit(Object o) {
+
+        }
+
+        @Override
+        public void onRightCardExit(Object o) {
+
+        }
+
+        @Override
+        public void onAdapterAboutToEmpty(int i) {
+            Log.i(MY_LOG, "in onAdapterAboutToEmpty");
+            if(mSliderModelList.size() == 2) {
+                mSliderModelList.addAll(ServiceMessage.getInstance().getAllMess());
+                mModelAdapter.notifyDataSetChanged();
+            }
+        }
+
+        @Override
+        public void onScroll(float scrollProgressPercent) {
+
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        mSlidePager = (ViewPager)findViewById(R.id.activityMain_ViewPager_SlidePager);
-//        mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
-//        mSlidePager.setAdapter(mPagerAdapter);
+        initDisplayParams();
+        initSlidePager();
+        initActionBar();
+
+
+        loadCounter();
+    }
+
+    private void initDisplayParams(){
+        Display display = getWindowManager().getDefaultDisplay();
+        mDisplayMetrics = new DisplayMetrics();
+        display.getMetrics(mDisplayMetrics);
+    }
+
+    private void initSlidePager(){
 
         mSlidePager = (SwipeFlingAdapterView) findViewById(R.id.activityMain_SwipeFlingAdapterView_SwipeView);
-        mModelAdapter = new MyAdapter();
-
-        /*
-
-        TEST
-
-         */
+        mSliderModelList.addAll(ServiceMessage.getInstance().getAllMess());
+        mModelAdapter = new MyAdapter(this, mSliderModelList);
 
         mSlidePager.setAdapter(mModelAdapter);
-        mSlidePager.setFlingListener(new SwipeFlingAdapterView.onFlingListener() {
-            @Override
-            public void removeFirstObjectInAdapter() {
+        mSlidePager.setFlingListener(mOnFlingListener);
+    }
 
-            }
-
-            @Override
-            public void onLeftCardExit(Object o) {
-
-            }
-
-            @Override
-            public void onRightCardExit(Object o) {
-
-            }
-
-            @Override
-            public void onAdapterAboutToEmpty(int i) {
-
-            }
-
-            @Override
-            public void onScroll(float scrollProgressPercent) {
-            }
-        });
-
-        /*
-
-        TEST
-
-         */
-
-
-
+    private void initActionBar(){
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
@@ -115,10 +129,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         //get image view counter
         mViewBeerCount = view.findViewById(R.id.actionBarTitle_TextView_TextViewCount);
         actionBar.setCustomView(view);
-
-        loadCounter();
-
-
     }
 
     private boolean isStoragePermissionGranted() {
@@ -137,7 +147,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                 return false;
             }
         }
-        else { //permission is automatically granted on sdk<23 upon installation
+        else {
             Log.v(MY_LOG,"Permission is granted");
             return true;
         }
@@ -147,7 +157,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        if(grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+        if(grantResults[0] == PackageManager.PERMISSION_GRANTED &&
+                grantResults[1] == PackageManager.PERMISSION_GRANTED) {
             share();
         }
     }
@@ -169,11 +180,15 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             return;
         }
         //получение картинки с фрагмента и привязка к bitmap через canvas
-        RelativeLayout fragment = (RelativeLayout) findViewById(R.id.fragmentScreenSlidePage);
+        com.lorentzos.flingswipe.SwipeFlingAdapterView fragment =
+                (com.lorentzos.flingswipe.SwipeFlingAdapterView) findViewById(R.id.activityMain_SwipeFlingAdapterView_SwipeView);
 
-        Bitmap bitmap = Bitmap.createBitmap(fragment.getWidth(), fragment.getHeight(), Bitmap.Config.ARGB_8888);
+        Bitmap bitmap = Bitmap.createBitmap(fragment.getWidth(),
+                fragment.getHeight() - Math.round(63 * mDisplayMetrics.density),
+                Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
 
+        //draw background
         Drawable d = ContextCompat.getDrawable(getApplicationContext(), R.mipmap.background_gray);
         d.setBounds(0, 0, bitmap.getWidth(), bitmap.getHeight());
         d.draw(canvas);
@@ -186,8 +201,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                 Uri.fromFile(new File(getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/pic.png")));
         shareIntent.setType("image/png");
         startActivity(Intent.createChooser(shareIntent, "Выберите способ отправки"));
-
-
     }
 
     private boolean saveImageToInternalStorage(Bitmap image) {
@@ -243,38 +256,16 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         ((TextView)mViewBeerCount).setText(Integer.toString(value));
     }
 
-    /**
-     * A simple pager adapter that represents 5 ScreenSlidePageFragment objects, in
-     * sequence.
-     */
-//    private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
-//
-//        public ScreenSlidePagerAdapter(FragmentManager fm) {
-//            super(fm);
-//        }
-//
-//        @Override
-//        public Fragment getItem(int position) {
-//            ScreenSlidePageFragment newScreenSlidePageFragment = new ScreenSlidePageFragment();
-//
-//            newScreenSlidePageFragment.setText(ServiceMessage.getInstance().getAllMess().get(position).getText());
-//            newScreenSlidePageFragment.setImg(ServiceMessage.getInstance().getAllMess().get(position).getJpgImg());
-//
-//            return newScreenSlidePageFragment;
-//        }
-//
-//        @Override
-//        public int getCount() {
-//            return ServiceMessage.getInstance().getAllMess().size();
-//        }
-//    }
-
     class MyAdapter extends BaseAdapter {
 
+        private Context context;
+        private LayoutInflater inflater;
         private List<MessageModel> items;
 
-        public MyAdapter(List<MessageModel> items){
+        public MyAdapter(Context context, List<MessageModel> items){
             this.items = items;
+            this.context = context;
+            inflater = (LayoutInflater) this.context.getSystemService(LAYOUT_INFLATER_SERVICE);
         }
 
         @Override
@@ -295,14 +286,22 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
 
-            View v;
+            View v = view;
             MessageModel item = (MessageModel) getItem(i);
 
             if(view == null){
-                v = new View();
+                v = inflater.inflate(R.layout.fragment_screen_slide_page, viewGroup, false);
+                v.getLayoutParams().height = mDisplayMetrics.heightPixels - Math.round(76 * mDisplayMetrics.density);
+
             }
 
-            v.findViewById(R.id.fragmentScreenSlidePage_TextView);
+            TextView textView = (TextView)v.findViewById(R.id.fragmentScreenSlidePage_TextView);
+            textView.setText(item.getText());
+            textView.setTypeface(Typeface.createFromAsset(context.getAssets(),"fonts/FiveMinutes.ttf"));
+
+
+            ((ImageView) v.findViewById(R.id.fragmentScreenSlidePage_ImageView_Img))
+                    .setImageBitmap(item.getJpgImg());
 
             return v;
         }

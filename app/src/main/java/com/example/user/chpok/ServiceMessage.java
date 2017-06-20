@@ -15,7 +15,7 @@ public class ServiceMessage {
     private static final String MYLOG = "MYLOG";
 
     private static ServiceMessage mInstance;
-    private static List<MessageModel> mModels = null;
+    private List<MessageModel> mModels = null;
 
     private ServiceMessage(){}
 

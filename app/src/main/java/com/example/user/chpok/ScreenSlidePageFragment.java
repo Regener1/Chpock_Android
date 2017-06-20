@@ -1,6 +1,7 @@
 package com.example.user.chpok;
 
 import android.graphics.Bitmap;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.Image;
 import android.os.Bundle;
@@ -17,7 +18,7 @@ import android.widget.TextView;
 
 public class ScreenSlidePageFragment extends Fragment {
 
-    private CustomTextView mTextView;
+    private TextView mTextView;
     private ImageView mImageView;
 
     private String mText;
@@ -30,7 +31,8 @@ public class ScreenSlidePageFragment extends Fragment {
         ViewGroup rootView = (ViewGroup) inflater.inflate(
                 R.layout.fragment_screen_slide_page, container, false);
 
-        mTextView = (CustomTextView) rootView.findViewById(R.id.fragmentScreenSlidePage_TextView);
+        mTextView = (TextView) rootView.findViewById(R.id.fragmentScreenSlidePage_TextView);
+        mTextView.setTypeface(Typeface.createFromAsset(getActivity().getAssets(),"fonts/FiveMinutes.ttf"));
         mImageView = (ImageView) rootView.findViewById(R.id.fragmentScreenSlidePage_ImageView_ImgShakespeare);
 
         mTextView.setText(mText);

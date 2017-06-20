@@ -29,10 +29,15 @@ public class SplashActivity extends AppCompatActivity implements SpringListener{
     private static double TENSION = 50;
     private static double DAMPER = 5;
 
+    private int mBeginMugPointX = 0;
+    private int mBeginMugPointY = 0;
+
     private ViewTreeObserver.OnGlobalLayoutListener mOnGlobalLayoutListenerViewFlyingMug =
             new ViewTreeObserver.OnGlobalLayoutListener() {
         @Override
         public void onGlobalLayout() {
+
+
 
             //move view to bottom
             mViewFlyingMug.setX(mDisplayMetrics.widthPixels / 3);

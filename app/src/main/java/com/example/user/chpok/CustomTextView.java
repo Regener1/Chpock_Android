@@ -24,12 +24,6 @@ public class CustomTextView extends TextView {
     private int mHeight = 0;
     Context mContext;
 
-//    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-//    public CustomTextView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-//        super(context, attrs, defStyleAttr, defStyleRes);
-//        init(attrs);
-//    }
-
     public CustomTextView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init(attrs);
@@ -76,7 +70,7 @@ public class CustomTextView extends TextView {
 
         int height = this.getMeasuredHeight();
 
-        return height < mHeight ? false : true;
+        return true;
     }
 
     public void setAutoSizeText() {

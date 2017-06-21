@@ -21,7 +21,7 @@
         android:layout_marginBottom="10dp"
         android:src="@mipmap/beer_mug_count"/>
 
-    <com.example.user.chpok.CustomTextView
+    <TextView
         android:id="@+id/actionBarTitle_TextView_TextViewCount"
         android:layout_width="wrap_content"
         android:layout_height="24dp"
@@ -30,6 +30,5 @@
         android:layout_toRightOf="@+id/actionBarTitle_ImageView_BeerMugCount"
         android:text="7"
         android:textColor="@color/colorWhite"
-        android:textSize="20sp"
-        app:font="FiveMinutes.ttf"/>
+        android:textSize="20sp"/>
 </RelativeLayout>

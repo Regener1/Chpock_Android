@@ -46,8 +46,15 @@ public class ServiceMessage {
                 "Это очень большой текст на первой странице" +
                 "Это очень большой текст на первой странице" +
                 "Это очень большой текст на первой странице","", Bitmap.createBitmap(200,200, Bitmap.Config.ALPHA_8)));
-        mModels.add(new MessageModel("Текст на второй странице","", Bitmap.createBitmap(200,200, Bitmap.Config.ALPHA_8)));
-        mModels.add(new MessageModel("Текст на третьей странице","", Bitmap.createBitmap(200,200, Bitmap.Config.ALPHA_8)));
+        mModels.add(new MessageModel("Текст на второй странице" +
+                "Не очень большой текст " +
+                "на второй странице","", Bitmap.createBitmap(200,200, Bitmap.Config.ALPHA_8)));
+        mModels.add(new MessageModel("Текст на третьей странице" +
+                "Текст еще побольше" +
+                "Текст еще побольше" +
+                "Текст еще побольше" +
+                "Текст еще побольше" +
+                "Текст еще побольше","", Bitmap.createBitmap(200,200, Bitmap.Config.ALPHA_8)));
         mModels.add(new MessageModel("Текст на четвнртой странице","", Bitmap.createBitmap(200,200, Bitmap.Config.ALPHA_8)));
     }
 

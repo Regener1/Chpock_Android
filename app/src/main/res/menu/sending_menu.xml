@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/send_text"
+        android:title="@string/send_text"></item>
+    <item
+        android:id="@+id/send_picture"
+        android:title="@string/send_picture"></item>
+</menu>

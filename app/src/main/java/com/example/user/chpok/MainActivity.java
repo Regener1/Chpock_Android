@@ -19,13 +19,15 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.Display;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.lorentzos.flingswipe.SwipeFlingAdapterView;
@@ -50,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     private SwipeFlingAdapterView mSlidePager;
     private List<MessageModel> mSliderModelList = new ArrayList<>();
     private BaseAdapter mModelAdapter;
-    private View mViewBeerCount;
+    private TextView mViewBeerCount;
     private SharedPreferences mSharedPreferences;
     private int mBeerCount = 0;
 
@@ -127,7 +129,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
         View view = inflater.inflate(R.layout.action_bar_title, null);
         //get image view counter
-        mViewBeerCount = view.findViewById(R.id.actionBarTitle_TextView_TextViewCount);
+        mViewBeerCount = (TextView)view.findViewById(R.id.actionBarTitle_TextView_TextViewCount);
+        mViewBeerCount.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/FiveMinutes.ttf"));
         actionBar.setCustomView(view);
     }
 
@@ -154,19 +157,52 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     }
 
     @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.sending_menu, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        super.onContextItemSelected(item);
+
+        switch (item.getItemId())
+        {
+            case R.id.send_text:{
+                shareText();
+                break;
+            }
+            case R.id.send_picture:{
+                sharePicture();
+                break;
+            }
+        }
+        return true;
+    }
+
+    @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
         if(grantResults[0] == PackageManager.PERMISSION_GRANTED &&
                 grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-            share();
+            initContextMenu();
         }
     }
 
     public void btnBeerCup_OnClick(View view) {
         useBeerCounter();
-        share();
+        initContextMenu();
+    }
 
+    private void initContextMenu(){
+        if(!isStoragePermissionGranted()){
+            return;
+        }
+        View view = findViewById(R.id.activityMain_ImageButton_BtnBeerCup);
+        registerForContextMenu(view);
+        openContextMenu(view);
     }
 
     private void useBeerCounter(){
@@ -175,11 +211,16 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         saveCounter();
     }
 
-    private void share() {
-        if(!isStoragePermissionGranted()){
-            return;
-        }
-        //получение картинки с фрагмента и привязка к bitmap через canvas
+    private void shareText()
+    {
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.putExtra(Intent.EXTRA_TEXT, ((MyAdapter)mModelAdapter).getText());
+        shareIntent.setType("text/plain");
+        startActivity(Intent.createChooser(shareIntent, "Выберите способ отправки"));
+    }
+
+    private void sharePicture()
+    {
         com.lorentzos.flingswipe.SwipeFlingAdapterView fragment =
                 (com.lorentzos.flingswipe.SwipeFlingAdapterView) findViewById(R.id.activityMain_SwipeFlingAdapterView_SwipeView);
 
@@ -212,7 +253,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         try {
             FileOutputStream fos = new FileOutputStream(sdPath);//cоздание файла в потоке и
             image.compress(Bitmap.CompressFormat.PNG, 100, fos); //запись картинки в файл
-            //fos.flush();
             fos.close();
             return true;
         }
@@ -268,6 +308,10 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             inflater = (LayoutInflater) this.context.getSystemService(LAYOUT_INFLATER_SERVICE);
         }
 
+        public String getText(){
+            return items.get(0).getText();
+        }
+
         @Override
         public int getCount() {
             return items.size();
@@ -295,10 +339,10 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
             }
 
-            TextView textView = (TextView)v.findViewById(R.id.fragmentScreenSlidePage_TextView);
+            CustomTextView textView = (CustomTextView)v.findViewById(R.id.fragmentScreenSlidePage_TextView);
             textView.setText(item.getText());
             textView.setTypeface(Typeface.createFromAsset(context.getAssets(),"fonts/FiveMinutes.ttf"));
-
+            textView.setScreenDensity(mDisplayMetrics.density);
 
             ((ImageView) v.findViewById(R.id.fragmentScreenSlidePage_ImageView_Img))
                     .setImageBitmap(item.getJpgImg());

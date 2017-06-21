@@ -40,7 +40,7 @@
         android:layout_marginRight="13dp"
         android:src="@mipmap/img_shakespeare"/>
 
-    <TextView
+    <com.example.user.chpok.CustomTextView
         android:id="@+id/fragmentScreenSlidePage_TextView"
         android:layout_width="match_parent"
         android:layout_height="159dp"
